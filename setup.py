@@ -58,7 +58,7 @@ setup(
     zip_safe=False,
     platforms='any',
     install_requires=[
-        'suds>=0.3.9',
+        'suds==0.3.9',
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
