@@ -3,8 +3,8 @@
 '''
     fedex.ship_services
 
-    Process and submit various shipping requests to FedEx, 
-    such as express and ground U.S. and international shipments 
+    Process and submit various shipping requests to FedEx,
+    such as express and ground U.S. and international shipments
     as well as Return shipments.
 
     :copyright: (c) 2010 by Sharoon Thomas.

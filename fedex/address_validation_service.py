@@ -17,7 +17,7 @@ class AddressValidationService(APIBase):
     """
     The `AddressValidationService` allows you to validate
     recipient address information before you ship a package.
-    Correct addresses on the shipping label will eliminate delivery 
+    Correct addresses on the shipping label will eliminate delivery
     delays and additional service fees.
 
     Use the Address Validation request to perform the following:
@@ -25,8 +25,8 @@ class AddressValidationService(APIBase):
         Puerto Rico and Canadian addresses.
       * Complete incomplete recipient addresses.
       * Correct invalid recipient addresses.
-      * Determine whether an address is business or residential 
-        to increase the accuracy of courtesy rate quotes. 
+      * Determine whether an address is business or residential
+        to increase the accuracy of courtesy rate quotes.
         Applies to U.S. addresses only.
     """
     __slots__=(

@@ -132,7 +132,7 @@ class APIBase(object):
     def _send_request(self, elements):
         """
         Sends the Request using suds.
-        This function should be called by the inherited send_request 
+        This function should be called by the inherited send_request
         functions
 
         :param service_name: Name of the service to use

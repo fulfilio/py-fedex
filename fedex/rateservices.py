@@ -19,5 +19,4 @@ class RateServices(APIBase):
         VariableOptions,
         RequestedShipment
     )
-    
 
