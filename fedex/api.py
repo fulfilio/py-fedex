@@ -24,6 +24,9 @@ BETA = int(VERSION[0]) < 1
 logging.basicConfig(level=logging.INFO)
 
 class APIBase(object):
+    """Base API
+    All FedEx services will inherit this and implement features
+    """
     __slots__ = (
         'WebAuthenticationDetail',
         'ClientDetail',
@@ -70,11 +73,11 @@ class APIBase(object):
         assert self.account_info is not None
         # WebAuthenticationDetail
         self.WebAuthenticationDetail = self.get_element_from_type(
-                                            "WebAuthenticationDetail"
-                                            )
+            "WebAuthenticationDetail"
+        )
         temp_credential = self.get_element_from_type(
-                                            "WebAuthenticationCredential"
-                                            )
+            "WebAuthenticationCredential"
+        )
         temp_credential.Key = self.account_info.Key
         temp_credential.Password = self.account_info.Password
         self.WebAuthenticationDetail.UserCredential = temp_credential
@@ -110,7 +113,7 @@ class APIBase(object):
         """
         wsdl_folder = os.path.join(
             os.path.dirname(os.path.abspath(__file__)), 'wsdl'
-            )
+        )
         if '://' not in uri:
             uri = 'file://%s' % os.path.join(wsdl_folder, uri)
         self.wsdl_client = Client(uri)
@@ -134,8 +137,8 @@ class APIBase(object):
         Sets the transaction details with given data
         """
         self.TransactionDetail = self.get_element_from_type(
-                                            "TransactionDetail"
-                                            )
+            "TransactionDetail"
+        )
         self.TransactionDetail.CustomerTransactionId = transaction_id
 
     def _send_request(self, elements):
@@ -149,10 +152,7 @@ class APIBase(object):
         """
         assert self.service_name is not None
         self._set_timestamp()
-        data = dict(zip(
-                        elements,
-                        map(self.get, elements)
-                        ))
+        data = dict(zip(elements, map(self.get, elements)))
         try:
             service = getattr(self.wsdl_client.service, self.service_name)
             self.response = service(**data)
@@ -173,10 +173,10 @@ class APIBase(object):
         message = ''
         for notification in self.response.Notifications:
             notification_message = '[%s] %s (Source:%s)' % (
-                                        notification.Code,
-                                        notification.Message,
-                                        notification.Source,
-                                    )
+                notification.Code,
+                notification.Message,
+                notification.Source,
+            )
             if notification.Severity == 'ERROR':
                 message += '\n' + notification_message
         if self.response.HighestSeverity == 'WARNING':
@@ -209,4 +209,3 @@ class LocatorService(APIBase):
 
 class ShipService(APIBase):
     pass
-

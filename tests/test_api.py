@@ -24,8 +24,8 @@ class APITestCase(unittest.TestCase):
         """
         directory = os.path.dirname(os.path.abspath(__file__))
         self.accountinfo = load_accountinfo_from_file(
-                                os.path.join(directory,'accountinfo.cfg')
-                                )
+            os.path.join(directory,'accountinfo.cfg')
+        )
 
     def test_0010_address_validation(self):
         """
@@ -35,9 +35,9 @@ class APITestCase(unittest.TestCase):
         address_1 = avs.get_element_from_type('AddressToValidate')
         address_1.CompanyName = 'Free Software Foundation'
         address_1.Address.StreetLines = [
-                                        '51 Franklin Street',
-                                        'Suite 500',
-                                        ]
+            '51 Franklin Street',
+            'Suite 500',
+        ]
         address_1.Address.City = 'Boston'
         address_1.Address.StateOrProvinceCode = 'MA'
         address_1.Address.PostalCode = 02110
@@ -69,9 +69,9 @@ class APITestCase(unittest.TestCase):
         psr.RequestedShipment.Shipper.Contact.EMailAddress = \
             'info@openlabs.co.in'
         psr.RequestedShipment.Shipper.Address.StreetLines = [
-                                                    'SN2000 Test Meter 8',
-                                                    '10 Fedex Parkway'
-                                                    ]
+            'SN2000 Test Meter 8',
+            '10 Fedex Parkway'
+        ]
         psr.RequestedShipment.Shipper.Address.City = 'Detroit'
         psr.RequestedShipment.Shipper.Address.StateOrProvinceCode = 'MI'
         psr.RequestedShipment.Shipper.Address.PostalCode = '48208'
@@ -80,9 +80,9 @@ class APITestCase(unittest.TestCase):
         psr.RequestedShipment.Recipient.Contact.PersonName = 'Recipient_Name'
         psr.RequestedShipment.Recipient.Contact.PhoneNumber = '9018549236'
         psr.RequestedShipment.Recipient.Address.StreetLines = [
-                                                'Recipient Address Line 1',
-                                                'Address line 2'
-                                                        ]
+            'Recipient Address Line 1',
+            'Address line 2'
+        ]
         psr.RequestedShipment.Recipient.Address.City = 'Edmonton'
         psr.RequestedShipment.Recipient.Address.StateOrProvinceCode = 'AB'
         psr.RequestedShipment.Recipient.Address.PostalCode = 'T5A1'

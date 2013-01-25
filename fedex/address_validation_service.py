@@ -11,8 +11,9 @@
 '''
 import string
 
-from .api import APIBase, BETA
+from .api import APIBase
 from .structures import VersionInformation
+
 
 class AddressValidationService(APIBase):
     """
@@ -47,8 +48,8 @@ class AddressValidationService(APIBase):
         self.AddressToValidate = []
         self.set_wsdl_client('AddressValidationService_v2.wsdl')
         self.AddressValidationOptions = self.get_element_from_type(
-                                            'AddressValidationOptions'
-                                            )
+            'AddressValidationOptions'
+        )
         super(AddressValidationService, self).__init__()
 
     def send_request(self, transaction_id=None):
@@ -60,9 +61,7 @@ class AddressValidationService(APIBase):
         if transaction_id is not None:
             self.set_transaction_details(transaction_id)
         fields = self.__slots__ + super(
-                                    AddressValidationService,
-                                    self).__slots__
+            AddressValidationService,
+            self).__slots__
         fields = [x for x in fields if x[0] in string.uppercase]
         return self._send_request(fields)
-
-

@@ -14,7 +14,7 @@
 import string
 from datetime import datetime
 
-from .api import APIBase, BETA
+from .api import APIBase
 from .structures import VersionInformation
 
 class ProcessShipmentRequest(APIBase):
