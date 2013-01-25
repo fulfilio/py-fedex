@@ -8,6 +8,7 @@
     as well as Return shipments.
 
     :copyright: (c) 2010 by Sharoon Thomas.
+    :copyright: (c) 2010-2013 by Openlabs Technologies & Consulting (P) Ltd.
     :license: GPLv3, see LICENSE for more details
 '''
 import string
@@ -24,7 +25,7 @@ class ProcessShipmentRequest(APIBase):
         'RequestedShipment',
         )
 
-    version_info = VersionInformation('ship', 9, 0, 0)
+    version_info = VersionInformation('ship', 12, 1, 0)
     service_name = 'processShipment'
 
     def __init__(self, account_info):
@@ -33,7 +34,7 @@ class ProcessShipmentRequest(APIBase):
                              with all the details of accounts
         """
         self.account_info = account_info
-        self.set_wsdl_client('ShipService_v9.wsdl')
+        self.set_wsdl_client('ShipService_v12.wsdl')
         self.RequestedShipment = self.get_element_from_type(
                                             'RequestedShipment'
                                             )
@@ -47,7 +48,15 @@ class ProcessShipmentRequest(APIBase):
         if transaction_id is not None:
             self.set_transaction_details(transaction_id)
 
-        self.RequestedShipment.ShipTimestamp = datetime.now()
+        # The date format must be YYYY-MM-DDTHH:MM:SS- xx:xx.
+        # The time must be in the format: HH:MM:SS using a 24-hour clock.
+        # The date and time are separated by the letter T
+        # (e.g., 2009-06-26T17:00:00).
+        # The UTC offset indicates the number of hours/minutes
+        # (e.g. xx:xx) from UTC (e.g. 2009-06-26T17:00:00-04:00
+        # is defined as June 26, 2009 5:00 p.m. Eastern Time).
+        self.RequestedShipment.ShipTimestamp = datetime.utcnow().replace(
+            microsecond=0).isoformat()
 
         fields = self.__slots__ + super(
                                     ProcessShipmentRequest,

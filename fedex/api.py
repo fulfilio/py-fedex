@@ -6,7 +6,8 @@
     Different APIs for Fedex
 
     :copyright: (c) 2010 by Sharoon Thomas.
-    :license: GPL3, see LICENSE for more details
+    :copyright: (c) 2010-2013 by Openlabs Technologies & Consulting (P) Ltd.
+    :license: GPLv3, see LICENSE for more details
 '''
 import os
 from datetime import datetime
@@ -14,9 +15,9 @@ import logging
 
 from suds import WebFault
 from suds.client import Client
-from .exceptions import ElementNotFilled, RequestError
+from .exceptions import RequestError, NotImplementedYet
 
-VERSION = '0.1'
+VERSION = '0.2dev'
 BETA = int(VERSION[0]) < 1
 
 
@@ -118,7 +119,15 @@ class APIBase(object):
         """
         Adds the request timestamp
         """
-        self.RequestTimestamp = datetime.now()
+        # The date format must be YYYY-MM-DDTHH:MM:SS- xx:xx.
+        # The time must be in the format: HH:MM:SS using a 24-hour clock.
+        # The date and time are separated by the letter T
+        # (e.g., 2009-06-26T17:00:00).
+        # The UTC offset indicates the number of hours/minutes
+        # (e.g. xx:xx) from UTC (e.g. 2009-06-26T17:00:00-04:00
+        # is defined as June 26, 2009 5:00 p.m. Eastern Time).
+        self.RequestTimestamp = datetime.utcnow().replace(
+            microsecond=0).isoformat()
 
     def set_transaction_details(self, transaction_id):
         """

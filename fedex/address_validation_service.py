@@ -6,7 +6,8 @@
     complete recipient addresses.
 
     :copyright: (c) 2010 by Sharoon Thomas.
-    :license: GPL, see LICENSE for more details
+    :copyright: (c) 2010-2013 by Openlabs Technologies & Consulting (P) Ltd.
+    :license: GPLv3, see LICENSE for more details
 '''
 import string
 
@@ -29,7 +30,7 @@ class AddressValidationService(APIBase):
         to increase the accuracy of courtesy rate quotes.
         Applies to U.S. addresses only.
     """
-    __slots__=(
+    __slots__ = (
         'AddressToValidate',
         'AddressValidationOptions'
     )
