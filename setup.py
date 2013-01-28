@@ -3,7 +3,8 @@
 '''
 
     :copyright: (c) 2010 by Sharoon Thomas.
-    :license: GPL, see LICENSE for more details
+    :copyright: (c) 2010-2013 by Openlabs Technologies & Consulting (P) Ltd.
+    :license: GPLv3, see LICENSE for more details
 '''
 from setuptools import Command, setup
 
@@ -46,7 +47,7 @@ class run_audit(Command):
 
 setup(
     name = 'fedex',
-    version='0.1',
+    version='0.2',
     url='http://openlabs.co.in/projects/python/fedex',
     license='GPL',
     author='Sharoon Thomas, Openlabs Technologies',
@@ -71,7 +72,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
     cmdclass={'audit': run_audit},
-    #test_suite='__main__.run_tests'
+    test_suite='tests'
 )
 
 
