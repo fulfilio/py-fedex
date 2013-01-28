@@ -6,18 +6,20 @@
     complete recipient addresses.
 
     :copyright: (c) 2010 by Sharoon Thomas.
-    :license: GPL, see LICENSE for more details
+    :copyright: (c) 2010-2013 by Openlabs Technologies & Consulting (P) Ltd.
+    :license: GPLv3, see LICENSE for more details
 '''
 import string
 
-from .api import APIBase, BETA
+from .api import APIBase
 from .structures import VersionInformation
+
 
 class AddressValidationService(APIBase):
     """
     The `AddressValidationService` allows you to validate
     recipient address information before you ship a package.
-    Correct addresses on the shipping label will eliminate delivery 
+    Correct addresses on the shipping label will eliminate delivery
     delays and additional service fees.
 
     Use the Address Validation request to perform the following:
@@ -25,11 +27,11 @@ class AddressValidationService(APIBase):
         Puerto Rico and Canadian addresses.
       * Complete incomplete recipient addresses.
       * Correct invalid recipient addresses.
-      * Determine whether an address is business or residential 
-        to increase the accuracy of courtesy rate quotes. 
+      * Determine whether an address is business or residential
+        to increase the accuracy of courtesy rate quotes.
         Applies to U.S. addresses only.
     """
-    __slots__=(
+    __slots__ = (
         'AddressToValidate',
         'AddressValidationOptions'
     )
@@ -46,8 +48,8 @@ class AddressValidationService(APIBase):
         self.AddressToValidate = []
         self.set_wsdl_client('AddressValidationService_v2.wsdl')
         self.AddressValidationOptions = self.get_element_from_type(
-                                            'AddressValidationOptions'
-                                            )
+            'AddressValidationOptions'
+        )
         super(AddressValidationService, self).__init__()
 
     def send_request(self, transaction_id=None):
@@ -59,9 +61,7 @@ class AddressValidationService(APIBase):
         if transaction_id is not None:
             self.set_transaction_details(transaction_id)
         fields = self.__slots__ + super(
-                                    AddressValidationService,
-                                    self).__slots__
+            AddressValidationService,
+            self).__slots__
         fields = [x for x in fields if x[0] in string.uppercase]
         return self._send_request(fields)
-
-

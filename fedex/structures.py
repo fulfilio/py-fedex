@@ -6,13 +6,14 @@
     Data Structures for common purposes
 
     :copyright: (c) 2010 by Sharoon Thomas.
-    :license: GPL3, see LICENSE for more details
+    :copyright: (c) 2010-2013 by Openlabs Technologies & Consulting (P) Ltd.
+    :license: GPLv3, see LICENSE for more details
 '''
 __all__ = (
-            'AccountInformation',
-            'VersionInformation',
-            'load_accountinfo_from_file',
-            )
+    'AccountInformation',
+    'VersionInformation',
+    'load_accountinfo_from_file',
+)
 
 import ConfigParser
 from collections import namedtuple
@@ -27,8 +28,8 @@ AccountInformation = namedtuple(
         'IntegratorId',
         'ProductId',
         'ProductVersion'
-        )
     )
+)
 
 VersionInformation = namedtuple(
     'VersionInformation',
@@ -37,8 +38,8 @@ VersionInformation = namedtuple(
         'Major',
         'Intermediate',
         'Minor',
-        )
     )
+)
 
 def load_accountinfo_from_file(file):
     """
@@ -47,8 +48,12 @@ def load_accountinfo_from_file(file):
     """
     config = ConfigParser.RawConfigParser()
     config.readfp(open(file))
-    data = dict(zip(AccountInformation._fields,
-                    [config.get('fedex', field.lower()) \
-                        for field in AccountInformation._fields]))
+    data = dict(
+        zip(
+            AccountInformation._fields,
+            [config.get('fedex', field.lower()) \
+                for field in AccountInformation._fields]
+        )
+    )
     return AccountInformation(**data)
 
