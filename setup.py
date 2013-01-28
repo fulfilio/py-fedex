@@ -46,7 +46,7 @@ class run_audit(Command):
 
 setup(
     name = 'fedex',
-    version='0.1',
+    version='0.2dev',
     url='http://openlabs.co.in/projects/python/fedex',
     license='GPL',
     author='Sharoon Thomas, Openlabs Technologies',
