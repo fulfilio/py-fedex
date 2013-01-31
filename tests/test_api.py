@@ -150,6 +150,112 @@ class APITestCase(unittest.TestCase):
 
         print psr.send_request('0020')
 
+    def test_0030_rate_service(self):
+        """
+        Test rate service API
+        """
+        psr = RateService(self.accountinfo)
+
+        requested_shipment = psr.RequestedShipment
+        requested_shipment.DropoffType = 'REGULAR_PICKUP'
+        requested_shipment.ServiceType = 'INTERNATIONAL_PRIORITY_FREIGHT'
+        requested_shipment.PackagingType = 'YOUR_PACKAGING'
+        #Shipper
+        shipper = requested_shipment.Shipper
+        shipper.AccountNumber = \
+            self.accountinfo.AccountNumber
+        shipper.Contact.CompanyName = \
+            'WAPISENDER-WBUS1100'
+        shipper.Contact.PersonName = 'Sender Name'
+        shipper.Contact.PhoneNumber = '1234567890'
+        shipper.Contact.EMailAddress = \
+            'info@openlabs.co.in'
+        shipper.Address.StreetLines = [
+            'SN2000 Test Meter 8',
+            '10 Fedex Parkway'
+        ]
+        shipper.Address.City = 'Detroit'
+        shipper.Address.StateOrProvinceCode = 'MI'
+        shipper.Address.PostalCode = '48208'
+        shipper.Address.CountryCode = 'US'
+        #Recipient
+        recipient = requested_shipment.Recipient
+        recipient.Contact.PersonName = 'Recipient_Name'
+        recipient.Contact.PhoneNumber = '9018549236'
+        recipient.Address.StreetLines = [
+            'Recipient Address Line 1',
+            'Address line 2'
+        ]
+        recipient.Address.City = 'Edmonton'
+        recipient.Address.StateOrProvinceCode = 'AB'
+        recipient.Address.PostalCode = 'T5A1'
+        recipient.Address.CountryCode = 'CA'
+        #Shipping Charges Payment
+        shipping_charges = requested_shipment.ShippingChargesPayment
+        shipping_charges.PaymentType = 'SENDER'
+        shipping_charges.Payor.ResponsibleParty = \
+            shipper
+        #Express Freight Detail
+        fright_detail = requested_shipment.ExpressFreightDetail
+        fright_detail.PackingListEnclosed=1
+        fright_detail.ShippersLoadAndCount=2
+        fright_detail.BookingConfirmationNumber =\
+            '123asd789'
+
+        #Customs Clearance Detail
+        customs_detail = psr.get_element_from_type('CustomsClearanceDetail')
+        customs_detail.DocumentContent = 'DOCUMENTS_ONLY'
+        #Customs Value
+        customs_detail.CustomsValue.Currency = 'USD'
+        customs_detail.CustomsValue.Amount = '5000'
+        #Commercial Invoice
+        customs_detail.CommercialInvoice.TermsOfSale = 'FOB_OR_FCA'
+
+        customs_detail.DutiesPayment.PaymentType = 'SENDER'
+        customs_detail.DutiesPayment.Payor.ResponsibleParty = \
+            shipper
+        requested_shipment.CustomsClearanceDetail = customs_detail
+        #Encoding Items for customs
+        commodities = []
+        commodity_1 = psr.get_element_from_type('Commodity')
+        commodity_1.NumberOfPieces = 1
+        commodity_1.Name = 'Shoes'
+        commodity_1.Description = 'My Beautiful Adidas Shoes'
+        commodity_1.CountryOfManufacture = 'US'
+        commodity_1.Weight.Units = 'LB'
+        commodity_1.Weight.Value = 10
+        commodity_1.Quantity = 1
+        commodity_1.QuantityUnits = "pairs"
+        commodity_1.UnitPrice.Amount = 100
+        commodity_1.UnitPrice.Currency = 'USD'
+        commodity_1.CustomsValue.Currency = 'USD'
+        commodity_1.CustomsValue.Amount = 100
+        commodities.append(commodity_1)
+        requested_shipment.CustomsClearanceDetail.Commodities = commodities
+        #Label Specification
+        requested_shipment.LabelSpecification.LabelFormatType = 'COMMON2D'
+        requested_shipment.LabelSpecification.ImageType = 'PNG'
+        requested_shipment.LabelSpecification.LabelStockType = 'PAPER_4X6'
+        #Charges and Payments
+        requested_shipment.RateRequestTypes = ['ACCOUNT']
+        #Encoding for items
+        items = []
+        item_1 = psr.get_element_from_type('RequestedPackageLineItem')
+        item_1.SequenceNumber = 1
+        item_1.GroupPackageCount = 1
+        item_1.ItemDescription = "My Beautiful Shoes"
+        item_1.Weight.Units = 'LB'
+        item_1.Weight.Value = 180
+        item_1.Dimensions.Length = 12
+        item_1.Dimensions.Width = 12
+        item_1.Dimensions.Height = 12
+        item_1.Dimensions.Units = 'IN'
+        items.append(item_1)
+        requested_shipment.RequestedPackageLineItems = items
+        requested_shipment.PackageCount = len(items)
+
+        print psr.send_request('0020')
+
 
 def suite():
     "Fedex API test suite"
