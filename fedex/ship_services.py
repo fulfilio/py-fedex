@@ -8,7 +8,7 @@
     as well as Return shipments.
 
     :copyright: (c) 2010 by Sharoon Thomas.
-    :copyright: (c) 2010-2013 by Openlabs Technologies & Consulting (P) Ltd.
+    :copyright: (c) 2010-2015 by Openlabs Technologies & Consulting (P) Ltd.
     :license: GPLv3, see LICENSE for more details
 '''
 import string
@@ -16,6 +16,7 @@ from datetime import datetime
 
 from .api import APIBase
 from .structures import VersionInformation
+
 
 class ProcessShipmentRequest(APIBase):
     """
@@ -25,7 +26,7 @@ class ProcessShipmentRequest(APIBase):
         'RequestedShipment',
         )
 
-    version_info = VersionInformation('ship', 12, 1, 0)
+    version_info = VersionInformation('ship', 15, 0, 0)
     service_name = 'processShipment'
 
     def __init__(self, account_info):
@@ -34,10 +35,10 @@ class ProcessShipmentRequest(APIBase):
                              with all the details of accounts
         """
         self.account_info = account_info
-        self.set_wsdl_client('ShipService_v12.wsdl')
+        self.set_wsdl_client('ShipService_v15.wsdl')
         self.RequestedShipment = self.get_element_from_type(
-                                            'RequestedShipment'
-                                            )
+            'RequestedShipment'
+        )
         super(ProcessShipmentRequest, self).__init__()
 
     def send_request(self, transaction_id=None):
@@ -59,9 +60,7 @@ class ProcessShipmentRequest(APIBase):
             microsecond=0).isoformat()
 
         fields = self.__slots__ + super(
-                                    ProcessShipmentRequest,
-                                    self).__slots__
+            ProcessShipmentRequest,
+            self).__slots__
         fields = [x for x in fields if x[0] in string.uppercase]
         return self._send_request(fields)
-
-

@@ -41,6 +41,7 @@ VersionInformation = namedtuple(
     )
 )
 
+
 def load_accountinfo_from_file(file):
     """
     Loads the config using config parser from file
@@ -51,9 +52,8 @@ def load_accountinfo_from_file(file):
     data = dict(
         zip(
             AccountInformation._fields,
-            [config.get('fedex', field.lower()) \
+            [config.get('fedex', field.lower())
                 for field in AccountInformation._fields]
         )
     )
     return AccountInformation(**data)
-

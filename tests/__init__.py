@@ -7,4 +7,4 @@
     :copyright: (c) 2013 by the Openlabs Technologies & Consulting (P) LTD.
     :license: GPLv3, see LICENSE for more details.
 """
-from test_api import suite
+from test_api import suite  # noqa

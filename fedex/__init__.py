@@ -17,7 +17,7 @@ __all__ = (
     'RateService',
 )
 
-from .api import VERSION as __version__
+from .api import VERSION as __version__  # noqa
 from .address_validation_service import AddressValidationService
 from .ship_services import ProcessShipmentRequest
 from .rate_services import RateService
