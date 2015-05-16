@@ -23,6 +23,7 @@ BETA = int(VERSION[0]) < 1
 
 logging.basicConfig(level=logging.INFO)
 
+
 class APIBase(object):
     """Base API
     All FedEx services will inherit this and implement features

@@ -6,15 +6,20 @@
     Tests the API
 
     :copyright: (c) 2010 by Sharoon Thomas.
-    :copyright: (c) 2010-2013 by Openlabs Technologies & Consulting (P) Ltd.
+    :copyright: (c) 2010-2015 by Openlabs Technologies & Consulting (P) Ltd.
     :license: GPLv3, see LICENSE for more details
 '''
-
 import unittest
 import os
+import logging
 
-from fedex import *
+from fedex import AddressValidationService, ProcessShipmentRequest, \
+    RateService, load_accountinfo_from_file
 from fedex.exceptions import RequestError
+
+logging.basicConfig(level=logging.INFO)
+logging.getLogger('suds.client').setLevel(logging.DEBUG)
+
 
 class APITestCase(unittest.TestCase):
 
@@ -24,7 +29,7 @@ class APITestCase(unittest.TestCase):
         """
         directory = os.path.dirname(os.path.abspath(__file__))
         self.accountinfo = load_accountinfo_from_file(
-            os.path.join(directory,'accountinfo.cfg')
+            os.path.join(directory, 'accountinfo.cfg')
         )
 
     def test_0010_address_validation(self):
@@ -58,8 +63,8 @@ class APITestCase(unittest.TestCase):
         psr.RequestedShipment.DropoffType = 'REGULAR_PICKUP'
         psr.RequestedShipment.ServiceType = 'INTERNATIONAL_PRIORITY_FREIGHT'
         psr.RequestedShipment.PackagingType = 'YOUR_PACKAGING'
-        #psr.RequestedShipment.PreferredCurrency = 'USD'
-        #Shipper
+        # psr.RequestedShipment.PreferredCurrency = 'USD'
+        # Shipper
         psr.RequestedShipment.Shipper.AccountNumber = \
             self.accountinfo.AccountNumber
         psr.RequestedShipment.Shipper.Contact.CompanyName = \
@@ -76,7 +81,7 @@ class APITestCase(unittest.TestCase):
         psr.RequestedShipment.Shipper.Address.StateOrProvinceCode = 'MI'
         psr.RequestedShipment.Shipper.Address.PostalCode = '48208'
         psr.RequestedShipment.Shipper.Address.CountryCode = 'US'
-        #Recipient
+        # Recipient
         psr.RequestedShipment.Recipient.Contact.PersonName = 'Recipient_Name'
         psr.RequestedShipment.Recipient.Contact.PhoneNumber = '9018549236'
         psr.RequestedShipment.Recipient.Address.StreetLines = [
@@ -87,30 +92,30 @@ class APITestCase(unittest.TestCase):
         psr.RequestedShipment.Recipient.Address.StateOrProvinceCode = 'AB'
         psr.RequestedShipment.Recipient.Address.PostalCode = 'T5A1'
         psr.RequestedShipment.Recipient.Address.CountryCode = 'CA'
-        #Shipping Charges Payment
+        # Shipping Charges Payment
         psr.RequestedShipment.ShippingChargesPayment.PaymentType = 'SENDER'
         psr.RequestedShipment.ShippingChargesPayment.Payor.ResponsibleParty = \
             psr.RequestedShipment.Shipper
-        #Express Freight Detail
-        psr.RequestedShipment.ExpressFreightDetail.PackingListEnclosed=1
-        psr.RequestedShipment.ExpressFreightDetail.ShippersLoadAndCount=2
+        # Express Freight Detail
+        psr.RequestedShipment.ExpressFreightDetail.PackingListEnclosed = 1
+        psr.RequestedShipment.ExpressFreightDetail.ShippersLoadAndCount = 2
         psr.RequestedShipment.ExpressFreightDetail.BookingConfirmationNumber =\
             '123asd789'
 
-        #Customs Clearance Detail
+        # Customs Clearance Detail
         customs_detail = psr.get_element_from_type('CustomsClearanceDetail')
         customs_detail.DocumentContent = 'DOCUMENTS_ONLY'
-        #Customs Value
+        # Customs Value
         customs_detail.CustomsValue.Currency = 'USD'
         customs_detail.CustomsValue.Amount = '5000'
-        #Commercial Invoice
-        customs_detail.CommercialInvoice.TermsOfSale = 'FOB_OR_FCA'
+        # Commercial Invoice
+        customs_detail.CommercialInvoice.TermsOfSale = 'FOB'
 
         customs_detail.DutiesPayment.PaymentType = 'SENDER'
         customs_detail.DutiesPayment.Payor.ResponsibleParty = \
             psr.RequestedShipment.Shipper
         psr.RequestedShipment.CustomsClearanceDetail = customs_detail
-        #Encoding Items for customs
+        # Encoding Items for customs
         commodities = []
         commodity_1 = psr.get_element_from_type('Commodity')
         commodity_1.NumberOfPieces = 1
@@ -127,13 +132,13 @@ class APITestCase(unittest.TestCase):
         commodity_1.CustomsValue.Amount = 100
         commodities.append(commodity_1)
         psr.RequestedShipment.CustomsClearanceDetail.Commodities = commodities
-        #Label Specification
+        # Label Specification
         psr.RequestedShipment.LabelSpecification.LabelFormatType = 'COMMON2D'
         psr.RequestedShipment.LabelSpecification.ImageType = 'PNG'
         psr.RequestedShipment.LabelSpecification.LabelStockType = 'PAPER_4X6'
-        #Charges and Payments
+        # Charges and Payments
         psr.RequestedShipment.RateRequestTypes = ['ACCOUNT']
-        #Encoding for items
+        # Encoding for items
         items = []
         item_1 = psr.get_element_from_type('RequestedPackageLineItem')
         item_1.SequenceNumber = 1
@@ -160,7 +165,7 @@ class APITestCase(unittest.TestCase):
         requested_shipment.DropoffType = 'REGULAR_PICKUP'
         requested_shipment.ServiceType = 'INTERNATIONAL_PRIORITY_FREIGHT'
         requested_shipment.PackagingType = 'YOUR_PACKAGING'
-        #Shipper
+        # Shipper
         shipper = requested_shipment.Shipper
         shipper.AccountNumber = \
             self.accountinfo.AccountNumber
@@ -178,7 +183,7 @@ class APITestCase(unittest.TestCase):
         shipper.Address.StateOrProvinceCode = 'MI'
         shipper.Address.PostalCode = '48208'
         shipper.Address.CountryCode = 'US'
-        #Recipient
+        # Recipient
         recipient = requested_shipment.Recipient
         recipient.Contact.PersonName = 'Recipient_Name'
         recipient.Contact.PhoneNumber = '9018549236'
@@ -190,32 +195,32 @@ class APITestCase(unittest.TestCase):
         recipient.Address.StateOrProvinceCode = 'AB'
         recipient.Address.PostalCode = 'T5A1'
         recipient.Address.CountryCode = 'CA'
-        #Shipping Charges Payment
+        # Shipping Charges Payment
         shipping_charges = requested_shipment.ShippingChargesPayment
         shipping_charges.PaymentType = 'SENDER'
         shipping_charges.Payor.ResponsibleParty = \
             shipper
-        #Express Freight Detail
+        # Express Freight Detail
         fright_detail = requested_shipment.ExpressFreightDetail
-        fright_detail.PackingListEnclosed=1
-        fright_detail.ShippersLoadAndCount=2
+        fright_detail.PackingListEnclosed = 1
+        fright_detail.ShippersLoadAndCount = 2
         fright_detail.BookingConfirmationNumber =\
             '123asd789'
 
-        #Customs Clearance Detail
+        # Customs Clearance Detail
         customs_detail = psr.get_element_from_type('CustomsClearanceDetail')
         customs_detail.DocumentContent = 'DOCUMENTS_ONLY'
-        #Customs Value
+        # Customs Value
         customs_detail.CustomsValue.Currency = 'USD'
         customs_detail.CustomsValue.Amount = '5000'
-        #Commercial Invoice
+        # Commercial Invoice
         customs_detail.CommercialInvoice.TermsOfSale = 'FOB_OR_FCA'
 
         customs_detail.DutiesPayment.PaymentType = 'SENDER'
         customs_detail.DutiesPayment.Payor.ResponsibleParty = \
             shipper
         requested_shipment.CustomsClearanceDetail = customs_detail
-        #Encoding Items for customs
+        # Encoding Items for customs
         commodities = []
         commodity_1 = psr.get_element_from_type('Commodity')
         commodity_1.NumberOfPieces = 1
@@ -232,13 +237,13 @@ class APITestCase(unittest.TestCase):
         commodity_1.CustomsValue.Amount = 100
         commodities.append(commodity_1)
         requested_shipment.CustomsClearanceDetail.Commodities = commodities
-        #Label Specification
+        # Label Specification
         requested_shipment.LabelSpecification.LabelFormatType = 'COMMON2D'
         requested_shipment.LabelSpecification.ImageType = 'PNG'
         requested_shipment.LabelSpecification.LabelStockType = 'PAPER_4X6'
-        #Charges and Payments
+        # Charges and Payments
         requested_shipment.RateRequestTypes = ['ACCOUNT']
-        #Encoding for items
+        # Encoding for items
         items = []
         item_1 = psr.get_element_from_type('RequestedPackageLineItem')
         item_1.SequenceNumber = 1
