@@ -1,14 +1,12 @@
 #!/usr/bin/env python
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 '''
-    fedex.ship_services
+    fedex.rateservices
 
-    Process and submit various shipping requests to FedEx,
-    such as express and ground U.S. and international shipments
-    as well as Return shipments.
+    Rate Service APIs for Fedex
 
     :copyright: (c) 2010 by Sharoon Thomas.
-    :copyright: (c) 2010-2015 by Openlabs Technologies & Consulting (P) Ltd.
+    :copyright: (c) 2010-2013 by Openlabs Technologies & Consulting (P) Ltd.
     :license: GPLv3, see LICENSE for more details
 '''
 import string
@@ -18,16 +16,16 @@ from .api import APIBase
 from .structures import VersionInformation
 
 
-class ProcessShipmentRequest(APIBase):
+class RateService(APIBase):
     """
-    Process a shipment
+    Get Shipment estimated rate
     """
     __slots__ = (
         'RequestedShipment',
-        )
+    )
 
-    version_info = VersionInformation('ship', 15, 0, 0)
-    service_name = 'processShipment'
+    version_info = VersionInformation('crs', 13, 0, 0)
+    service_name = 'getRates'
 
     def __init__(self, account_info):
         """
@@ -35,11 +33,11 @@ class ProcessShipmentRequest(APIBase):
                              with all the details of accounts
         """
         self.account_info = account_info
-        self.set_wsdl_client('ShipService_v15.wsdl')
+        self.set_wsdl_client('RateService_v13.wsdl')
         self.RequestedShipment = self.get_element_from_type(
             'RequestedShipment'
         )
-        super(ProcessShipmentRequest, self).__init__()
+        super(RateService, self).__init__()
 
     def send_request(self, transaction_id=None):
         """
@@ -60,7 +58,7 @@ class ProcessShipmentRequest(APIBase):
             microsecond=0).isoformat()
 
         fields = self.__slots__ + super(
-            ProcessShipmentRequest,
-            self).__slots__
+            RateService, self
+        ).__slots__
         fields = [x for x in fields if x[0] in string.uppercase]
         return self._send_request(fields)

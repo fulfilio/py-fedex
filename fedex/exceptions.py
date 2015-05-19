@@ -9,6 +9,7 @@
     :license: GPL3, see LICENSE for more details
 '''
 
+
 class FedexException(Exception):
     """
     Base class for all exceptions
