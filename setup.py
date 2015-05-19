@@ -11,7 +11,7 @@ from setuptools import setup
 
 setup(
     name='pyfedex',
-    version='0.3dev',
+    version='1.0',
     url='http://openlabs.co.in/projects/python/fedex',
     license='GPL',
     author='Sharoon Thomas, Openlabs Technologies',
