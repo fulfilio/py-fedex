@@ -10,7 +10,7 @@ from setuptools import setup
 
 
 setup(
-    name='fedex',
+    name='pyfedex',
     version='0.3dev',
     url='http://openlabs.co.in/projects/python/fedex',
     license='GPL',
