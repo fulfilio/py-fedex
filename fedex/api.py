@@ -15,6 +15,7 @@ import logging
 
 from suds import WebFault
 from suds.client import Client
+from suds.plugin import MessagePlugin
 from .exceptions import RequestError, NotImplementedYet
 
 VERSION = '0.2dev'
@@ -22,6 +23,13 @@ BETA = int(VERSION[0]) < 1
 
 
 logging.basicConfig(level=logging.INFO)
+
+
+class RemoveEmptyTags(MessagePlugin):
+    def marshalled(self, context):
+        # Remove empty tags inside the Body element
+        # context.envelope[0] is the SOAP-ENV:Header element
+        context.envelope[1].prune()
 
 
 class APIBase(object):
@@ -117,7 +125,7 @@ class APIBase(object):
         )
         if '://' not in uri:
             uri = 'file://%s' % os.path.join(wsdl_folder, uri)
-        self.wsdl_client = Client(uri)
+        self.wsdl_client = Client(uri, plugins=[RemoveEmptyTags()])
 
     def _set_timestamp(self):
         """
