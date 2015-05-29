@@ -22,9 +22,6 @@ VERSION = '0.2dev'
 BETA = int(VERSION[0]) < 1
 
 
-logging.basicConfig(level=logging.INFO)
-
-
 class RemoveEmptyTags(MessagePlugin):
     def marshalled(self, context):
         # Remove empty tags inside the Body element
