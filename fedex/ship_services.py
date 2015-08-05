@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 '''
     fedex.ship_services
@@ -6,10 +5,6 @@
     Process and submit various shipping requests to FedEx,
     such as express and ground U.S. and international shipments
     as well as Return shipments.
-
-    :copyright: (c) 2010 by Sharoon Thomas.
-    :copyright: (c) 2010-2015 by Openlabs Technologies & Consulting (P) Ltd.
-    :license: GPLv3, see LICENSE for more details
 '''
 import string
 from datetime import datetime

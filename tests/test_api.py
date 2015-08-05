@@ -1,14 +1,4 @@
-#!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-'''
-    Fedex API Testing
-
-    Tests the API
-
-    :copyright: (c) 2010 by Sharoon Thomas.
-    :copyright: (c) 2010-2015 by Openlabs Technologies & Consulting (P) Ltd.
-    :license: GPLv3, see LICENSE for more details
-'''
 import unittest
 import os
 import logging

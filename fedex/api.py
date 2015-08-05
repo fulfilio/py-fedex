@@ -1,14 +1,4 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-'''
-    fedex.api
-
-    Different APIs for Fedex
-
-    :copyright: (c) 2010 by Sharoon Thomas.
-    :copyright: (c) 2010-2013 by Openlabs Technologies & Consulting (P) Ltd.
-    :license: GPLv3, see LICENSE for more details
-'''
 import os
 from datetime import datetime
 import logging

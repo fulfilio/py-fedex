@@ -4,10 +4,6 @@
 
     Use the Address Validation Service to validate or
     complete recipient addresses.
-
-    :copyright: (c) 2010 by Sharoon Thomas.
-    :copyright: (c) 2010-2013 by Openlabs Technologies & Consulting (P) Ltd.
-    :license: GPLv3, see LICENSE for more details
 '''
 import string
 
