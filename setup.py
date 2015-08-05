@@ -5,7 +5,7 @@ from setuptools import setup
 
 setup(
     name='pyfedex',
-    version='1.2',
+    version='1.3',
     url='https://www.fulfil.io/',
     license='BSD',
     author='Fulfil.IO Inc.',
