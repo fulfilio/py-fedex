@@ -25,9 +25,6 @@ AccountInformation = namedtuple(
         'Password',
         'AccountNumber',
         'MeterNumber',
-        'IntegratorId',
-        'ProductId',
-        'ProductVersion'
     )
 )
 

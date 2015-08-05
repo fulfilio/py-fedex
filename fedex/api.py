@@ -91,8 +91,6 @@ class APIBase(object):
         self.ClientDetail = self.get_element_from_type('ClientDetail')
         self.ClientDetail.AccountNumber = self.account_info.AccountNumber
         self.ClientDetail.MeterNumber = self.account_info.MeterNumber
-        if hasattr(self.ClientDetail, 'IntegratorId'):
-            self.ClientDetail.IntegratorId = self.account_info.IntegratorId
 
     def _set_version(self):
         """
